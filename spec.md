@@ -23,7 +23,7 @@
 
 | # | Tin người dùng nhắn | Lớp | AI có thể sai thế nào | Sản phẩm tốt nên làm gì | Nhãn | Thành viên làm |
 |---|---|---|---|---|---|---|
-| S1|”Tôi đang có việc gấp, nên tôi cần đổi chuyến bay ngay lập tức”|2|Trỏ ngay lập tức về `doi_chuyen_bay` mà không có thông tin về chuyến bay muốn đổi|Hỏi khách xem khách muốn đổi sang chuyến nào|Không chấp nhận được|Nguyễn Văn Anh Trung
+| S1|”Đổi đi”|② **Mơ hồ / thiếu thông tin**|Trỏ ngay lập tức về `doi_chuyen_bay` mà không có thông tin về chuyến bay muốn đổi|Hỏi khách xem khách muốn đổi sang chuyến nào|Không chấp nhận được|Nguyễn Văn Anh Trung
 | S2 | | | | | | |
 | S3 | | | | | | |
 | S4 | | | | | | |
