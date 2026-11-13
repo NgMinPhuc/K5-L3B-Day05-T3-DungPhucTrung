@@ -42,23 +42,118 @@
 
 
 ## §3. Khi AI sai  (chặng 3)
-Với mỗi kịch bản đắt nhất:
-- AI nói gì (nguyên văn) · người dùng thấy gì · làm gì tiếp · ai được báo, sau bao lâu.
-- Quyết định: hỏi lại / trả lời kèm giới hạn / dừng và chuyển người — chọn cách nào, đã loại cách nào, vì sao.
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao cách nói, cách sửa đi theo loại đó.
-- 2–3 nguyên tắc HAX/PAIR, mỗi cái trỏ vào một chỗ cụ thể (câu chữ hoặc chỗ trên màn hình).
-- Lỗi nào sửa câu chữ không cứu được (nếu có), và thiết kế cứu nó thế nào.
+<!-- Với mỗi kịch bản đắt nhất: AI nói gì (nguyên văn) · người dùng thấy gì · làm gì tiếp · ai được báo, sau bao lâu · quyết định + phương án đã loại · loại lỗi · HAX/PAIR · lỗi câu chữ không cứu được. -->
+
+### §3.1 S4 — Hoàn vé khi khách đang bực *(Nguyễn Văn Anh Trung)*
+*[Trung viết: AI nói gì · khách thấy gì · làm gì tiếp · ai được báo · quyết định và phương án đã loại · loại lỗi]*
+
+### §3.2 S8 — Tách bé 5 tuổi bay một mình
+Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến sau nha"*
+
+**AI nói (nguyên văn):**
+> "Mình **chưa giữ chỗ hay đổi vé nào** cả. Bé Gia Bình mới 5 tuổi, nên việc cho bé bay một mình cần nhân viên kiểm tra với hãng. Việc này mình không tự làm được. Mình đã chuyển cho nhân viên hỗ trợ, khoảng **5 phút** sẽ có người trả lời, và nhân viên đã có đủ thông tin nên bạn không cần kể lại.
+> Trong lúc chờ, nếu hai mẹ con muốn **bay cùng nhau** thì vẫn còn chỗ: **BM 201 07:00 sáng 13/11** (còn 9 chỗ) hoặc **BM 205 09:30** (còn 4 chỗ). Bạn muốn mình giữ chỗ chuyến nào cho cả 2 người không?"
+
+**Khách thấy gì:**
+- Dải trạng thái *"Đang chuyển nhân viên · chờ khoảng 5 phút"*, có nút **"Huỷ, quay lại chat"**.
+- Thẻ hành khách có nhãn **"Bé Gia Bình · 5 tuổi · trẻ em"**.
+- Dòng căn cứ *"Dựa vào: đặt chỗ TRV-7Q2K, hành khách Nguyễn Gia Bình (5 tuổi)"*.
+- Hai nút **"Giữ BM 201 cho 2 người"** và **"Giữ BM 205 cho 2 người"**.
+- **Không có** nút nào giữ chỗ hay đổi vé riêng cho bé. Đây là việc AI không được làm, nên màn hình không có nút để làm.
+
+**Khách làm gì tiếp:**
+- **Bấm giữ chỗ cho 2 người:** AI gọi `giu_cho_chuyen_moi` và hiện đếm ngược 20 phút. Việc đổi vé vẫn phải qua thẻ xác nhận (xem §4).
+- **Vẫn muốn bé bay riêng:** khách chờ nhân viên. AI không thuyết phục khách đổi ý.
+- **Không làm gì:** không có gì bị đổi. Ca vẫn nằm trong hàng chờ của nhân viên.
+
+**Ai được báo, sau bao lâu:**
+- Nhân viên hỗ trợ được báo **ngay**, ca được gắn nhãn ưu tiên **"trẻ em"**.
+- Nhân viên thấy sẵn bản tóm tắt: mã TRV-7Q2K · BM 213 huỷ do bão · 2 hành khách, bé 5 tuổi · khách muốn bé bay BM 201 trước, mẹ bay sau · **AI chưa thực hiện thao tác nào** · chỗ đang giữ (nếu có) · hạn đổi miễn phí trong 48 giờ.
+- Nếu sau **10 phút** chưa có ai nhận ca, ca được đẩy lên trưởng ca và khách được báo thời gian chờ mới.
+
+**Quyết định: dừng phần ngoài quyền và chuyển người, nhưng vẫn làm phần trong quyền.**
+
+| Phương án | Kết luận | Vì sao |
+|---|---|---|
+| Hỏi lại ("bé có người lớn đi cùng không?") | Loại | Câu trả lời của khách không đổi được kết quả. AI không có dữ liệu về thủ tục trẻ bay một mình và cũng không xác minh được người đi kèm. Hỏi thêm chỉ mất một lượt chat, trong khi BM 205 chỉ còn 4 chỗ |
+| Trả lời kèm giới hạn ("được, nhưng nhớ làm thủ tục cho bé") | Loại | AI vẫn làm một việc không có căn cứ. Hướng dẫn thủ tục thì lại là **bịa**, vì dữ liệu track không có thủ tục này (lỗi lớp ①) |
+| **Dừng và chuyển nhân viên, kèm lựa chọn bay cùng nhau** | **Chọn** | Nhân viên là người duy nhất xử lý được trẻ bay một mình (rubric riêng T3, mục 6). Đưa sẵn chuyến bay cùng nhau giúp khách không mất chỗ trong lúc chờ |
+
+**Loại lỗi: lỗi ngữ cảnh.**
+- Đây **không phải lỗi người dùng**: khách nói rõ ràng, chỉ là có thể không biết quy định. Vì vậy AI không trách ("bạn không được làm vậy"), mà nói lý do một cách trung tính.
+- Đây cũng **không phải lỗi hệ thống**: các tool vẫn chạy đúng thiết kế, vì `giu_cho_chuyen_moi` và `doi_chuyen_bay` cho chọn từng hành khách.
+- Chỗ sai là **ngữ cảnh**: hành khách là trẻ 5 tuổi. Vì vậy phải **sửa thiết kế** (thêm luật ở §4), chứ sửa câu chữ là không đủ.
+
+### §3.3 Nguyên tắc HAX/PAIR
+*Số trong ngoặc vuông là số trên ảnh prototype; Dũng điền khi chụp.*
+
+- **G10 — Thu hẹp phạm vi khi nghi ngờ:**
+  - S8: AI chỉ đưa lựa chọn **"cho 2 người"**, không có lựa chọn tách bé. [số …]
+  - S4: AI **soạn** yêu cầu hoàn nhưng không gửi. [số …]
+- **G11 — Giải thích vì sao:** dòng *"Dựa vào: đặt chỗ TRV-7Q2K, hành khách Nguyễn Gia Bình (5 tuổi)"* ngay dưới câu trả lời ở S8. Khách thấy AI dừng vì đâu và tự kiểm tra được. [số …]
+- **PAIR, lỗi và đường lui:**
+  - Mỗi lần chuyển nhân viên đều có dải trạng thái kèm thời gian chờ, và câu *"bạn không cần kể lại"*.
+  - Nhân viên nhận sẵn bản tóm tắt có dòng *"AI chưa thực hiện thao tác nào"*.
+  - Khi chờ nhân viên, khách vẫn có đường lui: giữ chỗ cho 2 người. [số …]
+
+### §3.4 Lỗi sửa câu chữ không cứu được
+- **S8:**
+  - Nếu `doi_chuyen_bay` đã chạy cho riêng bé Bình, thì dù AI có thêm câu "nhớ làm thủ tục cho bé", hai mẹ con vẫn đã bị tách và lần đổi miễn phí của bé vẫn đã mất.
+  - Khách xác nhận cũng không chặn được, vì chính khách là người yêu cầu.
+  - **Thiết kế cứu:** luật đặt ngay ở tầng tool, không chỉ dặn AI trong prompt. Nếu đặt chỗ có hành khách trẻ em, `giu_cho_chuyen_moi` và `doi_chuyen_bay` chỉ nhận **đủ cả nhóm hành khách**. Yêu cầu chỉ cho một phần nhóm thì tool từ chối và tự gọi `chuyen_nhan_vien`.
+- **S4:**
+  - Câu cảnh báo "gửi rồi không rút được" vô ích nếu AI gọi `gui_yeu_cau_hoan_ve` ngay khi khách nói "huỷ hết đi".
+  - **Thiết kế cứu:** tách tool thành **soạn** (AI tự làm) và **gửi** (chỉ chạy khi khách tick xác nhận rồi bấm nút). Chi tiết ở §4.
 
 ## §4. Mức tự chủ  (chặng 4)
-Với mỗi tool:
-- Mức của nhóm (tự làm / cần người duyệt / cấm). Nếu cần người duyệt: ai duyệt · người duyệt thấy gì · quá hạn thì sao.
-- Lý do theo cost-of-error: sai thì ai chịu gì · đảo lại được không · chờ người thì mất gì.
-- Phương án đã cân nhắc và vì sao loại.
-Thêm:
-- Tool khó xếp nhất: mỗi người từng chọn gì, cái giá của mỗi phía (trỏ về kịch bản ở §2), nhóm chốt thế nào.
-- Thử mức đã đặt trên 2 kịch bản đắt nhất + 1 kịch bản bình thường: cái sai có bị chặn không? còn việc nào làm khi lẽ ra phải hỏi? người dùng bình thường có phải chờ vô ích không?
-- Luật thêm hoặc tool tách bước (nếu có), và vì sao.
-- Một mức tự chủ đã đổi lời hứa nào với người dùng.
+
+### §4.1 Mức của từng tool
+
+| Tool | Mức | Ai duyệt · thấy gì · quá hạn thì sao | Lý do theo cost-of-error | Phương án đã loại | Người viết |
+|---|---|---|---|---|---|
+| `tra_cuu_dat_cho` | *[Trung]* | | | | Trung |
+| `giu_cho_chuyen_moi` | *[Trung]* | | | | Trung |
+| `doi_chuyen_bay` | **Cần khách duyệt**, kèm luật "đủ cả nhóm hành khách" | **Khách** duyệt bằng **thẻ xác nhận**, không phải bằng chữ trong chat. Thẻ ghi: BM 213 → chuyến mới, giờ bay, danh sách hành khách, phí 0 đ, dòng *"dùng lần đổi miễn phí duy nhất"*, và đếm ngược giữ chỗ. **Quá hạn:** hết 20 phút giữ chỗ thì thẻ bị khoá, AI tra lại chỗ trống. Không bao giờ tự đổi | **Sai thì:** khách mất lần đổi miễn phí duy nhất, chuyến đúng có thể hết chỗ, có khi gia đình bị tách (S8). **Đảo được không:** khó, vì không có tool hoàn tác. **Chờ người thì:** giữ chỗ 20 phút đã giữ chỗ cho khách, nên một lần bấm xác nhận gần như không mất gì | **Tự làm:** S1 ("đổi đi") và S2 ("sáng mai") sẽ đổi sai chuyến. **Nhân viên duyệt:** khách bình thường (S2) phải chờ, trong khi BM 205 chỉ còn 4 chỗ. **Cấm:** AI chỉ còn gợi ý, khách lại phải tự bấm qua nhiều bước của Easy Reschedule, đúng điều khách đi cùng con nhỏ không muốn | Nguyễn Minh Phúc |
+| `gui_yeu_cau_hoan_ve` | **Tách 2 bước:** *soạn* thì AI tự làm · *gửi* thì khách duyệt | **Khách** duyệt trong hộp xác nhận. Hộp ghi: 2 hành khách sẽ mất chỗ, tiền về phương thức thanh toán gốc, có thể tới 90 ngày, **gửi rồi không huỷ được**, không có bồi thường tiền mặt vì chuyến huỷ do bão. Ngay trong hộp có lựa chọn thay thế "BM 201 07:00, đổi miễn phí". Nút gửi chỉ bấm được sau khi khách tick *"Mình hiểu yêu cầu này không rút lại được"*. **Quá hạn:** bản nháp vẫn để đó, không gửi gì | **Sai thì:** khách mất cả 2 chỗ và chờ tiền tới 90 ngày, trong khi vẫn cần bay (S4, S6). **Đảo được không:** không. **Chờ người thì:** nếu khách thật sự muốn hoàn (chuyến huỷ nên chính sách cho phép), chỉ thêm 2 lần bấm | **Tự làm:** S4, AI làm theo câu nói lúc bực. **Nhân viên duyệt:** nhân viên cũng không biết khách đang bực hay thật sự muốn hoàn, nên chỉ thêm thời gian chờ mà không an toàn hơn. **Cấm:** khách có quyền hoàn theo chính sách, cấm thì khách phải chờ nhân viên dù không cần | Nguyễn Minh Phúc |
+| `chuyen_nhan_vien` | *[Trung]* | | | | Trung |
+
+### §4.2 Tool khó xếp nhất: `doi_chuyen_bay`
+**Mỗi người chọn gì** *(điền sau 5 phút cả nhóm tự xếp mức)*:
+- Phúc: […]
+- Dũng: […]
+- Trung: […]
+
+**Mức nào cũng có giá:**
+
+| Mức | Cái giá | Kịch bản ở §2 cho thấy cái giá |
+|---|---|---|
+| Tự làm | Đổi sai chuyến khi khách nói mơ hồ, mất lần đổi miễn phí | S1, S2 |
+| Khách duyệt | Không chặn được S8, vì chính khách yêu cầu tách bé và sẽ bấm xác nhận | S8 |
+| Nhân viên duyệt | Chặn được S8, nhưng khách bình thường cũng phải chờ và chuyến ít chỗ có thể hết | S2 (BM 205 còn 4 chỗ) |
+| Cấm | AI chỉ gợi ý, lát cắt mất giá trị chính | — |
+
+**Nhóm chốt:** **khách duyệt**, cộng thêm luật ở tầng tool. Nếu đặt chỗ có trẻ em mà khách đổi cho chỉ một phần nhóm thì tool từ chối và chuyển nhân viên.
+- Nhờ vậy, khách bình thường (S2) chỉ cần một lần bấm.
+- Riêng ca nguy hiểm S8 mới phải chờ nhân viên.
+
+### §4.3 Thử mức đã đặt trên 3 kịch bản
+
+| Kịch bản | Cái sai có bị chặn không? | Còn làm khi lẽ ra phải hỏi? | Người dùng bình thường có phải chờ vô ích? |
+|---|---|---|---|
+| **S4** "Thôi huỷ hết đi, hoàn tiền" | **Có.** AI chỉ soạn nháp. Muốn gửi, khách phải tick rồi bấm, và ngay trong hộp có lựa chọn BM 201 | Không. Bản nháp không thay đổi gì | Không. Khách thật sự muốn hoàn chỉ mất thêm 2 lần bấm, không phải chờ nhân viên |
+| **S8** "Cho bé Bình bay trước" | **Có**, nhờ luật "đủ cả nhóm hành khách". Nếu chỉ có bước khách duyệt thì **không** chặn được | Không. AI không tự giữ chỗ, vì khách muốn khác với lựa chọn "bay cùng nhau". AI hỏi trước rồi mới giữ | Có chờ khoảng 5 phút, nhưng đáng chờ: đây là an toàn của trẻ, và trong lúc chờ khách vẫn giữ được chỗ cho 2 người |
+| **S2** "Sáng mai" *(ca bình thường)* | **Có.** Đổi vé phải qua thẻ xác nhận, nên AI không đổi ngay chuyến sớm nhất | **Còn một chỗ:** AI tự giữ BM 201 trước khi hỏi. Chấp nhận vì sau 20 phút chỗ tự nhả, nhưng việc này có thể làm khách nghiêng về 07:00. Cách giảm: hiện cả BM 205 với độ nổi bật ngang nhau | Không. Khách chọn chuyến, bấm xác nhận là xong, không có nhân viên nào chen vào |
+
+### §4.4 Luật thêm và tool tách bước
+- **Tách `gui_yeu_cau_hoan_ve`** thành `soan_yeu_cau_hoan_ve` (AI tự làm) và `gui_yeu_cau_hoan_ve` (khách duyệt). Kịch bản được chặn: S4, và gián tiếp cả S6.
+- **Chỉ nút trên thẻ xác nhận mới tính là xác nhận.** Chữ "ok / đổi đi / ừ" trong chat không bao giờ chạy `doi_chuyen_bay` hay `gui_yeu_cau_hoan_ve`. Kịch bản được chặn: S1, và tin tự xưng nhân viên ở S9.
+- **Có trẻ em thì chỉ giữ chỗ hay đổi vé cho đủ cả nhóm hành khách**, nếu không thì chuyển nhân viên. Kịch bản được chặn: S8. *(Trung viết chi tiết luật này ở dòng `chuyen_nhan_vien`.)*
+
+### §4.5 Mức tự chủ đã đổi lời hứa với khách
+- **Trước:** "Trợ lý AI đổi vé, hoàn vé giúp bạn."
+- **Sau:** "Trợ lý **tìm và giữ chỗ cho cả nhà bạn ngay**. Vé chỉ được đổi hay hoàn **khi chính bạn bấm xác nhận**. Ca có trẻ em bay riêng thì **nhân viên** xử lý."
+- Cái khách được: không mất vé hay lần đổi miễn phí vì một câu nói vội.
+- Cái khách đổi lại: phải bấm thêm một lần, và ca có trẻ em phải chờ khoảng 5 phút.
 
 ## §5. Prototype  (chặng 5)
 - Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
