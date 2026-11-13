@@ -167,7 +167,7 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 **Mỗi người chọn gì** *(điền sau 5 phút cả nhóm tự xếp mức)*:
 - Phúc: […]
 - Dũng: **Nhân viên duyệt.** `doi_chuyen_bay` khó đảo: đổi xong là hết lần đổi miễn phí, và ở S6 vé đang chờ hoàn thì đổi sai còn rối hơn. Có người duyệt thì chặn được cả S8, vì khách tự bấm xác nhận không chặn được ca chính khách muốn tách bé. Cái giá: khách bình thường ở S2 cũng phải chờ, trong lúc đó BM 205 (còn 4 chỗ) có thể hết.
-- Trung: […]
+- Trung: **Khách duyệt.** Cái sai hay gặp nhất của `doi_chuyen_bay` là AI hiểu sai câu mơ hồ ("đổi đi" ở S1, "sáng mai" ở S2), và người biết rõ mình muốn chuyến nào nhất là chính khách. Thẻ xác nhận ghi đủ chuyến mới, giờ bay, danh sách hành khách và dòng *"dùng lần đổi miễn phí duy nhất"*, nên khách nhìn là thấy AI đổi sai trước khi mất gì. Chờ khách bấm cũng gần như không tốn gì, vì chỗ đã được giữ 20 phút. Nhân viên duyệt thì an toàn hơn ở S8 nhưng bắt mọi khách bình thường chờ, trong khi BM 205 chỉ còn 4 chỗ. Cái giá: khách duyệt không chặn được S8, vì chính khách muốn tách bé và sẽ bấm xác nhận, nên phải thêm luật "đủ cả nhóm hành khách" ở tầng tool thay vì nâng cả tool lên nhân viên duyệt.
 
 **Mức nào cũng có giá:**
 
