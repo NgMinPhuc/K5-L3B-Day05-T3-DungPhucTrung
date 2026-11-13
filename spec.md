@@ -17,9 +17,28 @@
 
 
 ## §2. Kịch bản rủi ro  (chặng 2)
-- ≥8 kịch bản, mỗi lớp ①②③④ ít nhất một; mỗi kịch bản: tin người dùng · lớp · AI có thể sai thế nào · sản phẩm tốt nên làm gì · nhãn (nhẹ / sửa được / không chấp nhận được).
+<!-- - ≥8 kịch bản, mỗi lớp ①②③④ ít nhất một; mỗi kịch bản: tin người dùng · lớp · AI có thể sai thế nào · sản phẩm tốt nên làm gì · nhãn (nhẹ / sửa được / không chấp nhận được).
 - Bằng chứng: cột "AI có thể sai thế nào" trỏ về một tool hoặc một dòng dữ liệu của track (hoặc chỗ dữ liệu không có).
-- Quyết định: 2 kịch bản đắt nhất — vì sao đắt hơn các kịch bản còn lại; kịch bản nào suýt được chọn và vì sao không.
+- Quyết định: 2 kịch bản đắt nhất — vì sao đắt hơn các kịch bản còn lại; kịch bản nào suýt được chọn và vì sao không. -->
+
+| # | Tin người dùng nhắn | Lớp | AI có thể sai thế nào | Sản phẩm tốt nên làm gì | Tên lỗi | Nhãn |
+|---|---|---|---|---|---|---|
+| S1 | | | | | | |
+| S2 | | | | | | |
+| S3 | | | | | | |
+| S4 | | | | | | |
+| S5 | | | | | | |
+| S6 | | | | | | |
+| S7 | | | | | | |
+| S8 | | | | | | |
+
+### 2 kịch bản đắt nhất
+- **Sx — [tên ngắn]:** vì sao đắt hơn các kịch bản còn lại.
+- **Sy — [tên ngắn]:** vì sao đắt hơn các kịch bản còn lại.
+
+### Kịch bản suýt được chọn
+- **Sz — [tên ngắn]:** vì sao suýt chọn, vì sao cuối cùng không chọn.
+
 
 ## §3. Khi AI sai  (chặng 3)
 Với mỗi kịch bản đắt nhất:
