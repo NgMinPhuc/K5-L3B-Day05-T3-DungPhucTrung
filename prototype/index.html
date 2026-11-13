@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trợ lý đổi chuyến</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Hallmark · macrostructure: Workbench (app + annotation rail) · tone: utilitarian · anchor hue: 250 (ink-blue)
+ * Prototype khung — LAB5 T3 · S4 + S8 · nội dung câu chữ còn tạm, chốt sau §3/§4
+ */
+:root{
+  --color-paper: oklch(97% 0.005 250);
+  --color-paper-2: oklch(100% 0 0);
+  --color-paper-3: oklch(93% 0.01 250);
+  --color-ink: oklch(24% 0.02 250);
+  --color-ink-2: oklch(45% 0.02 250);
+  --color-rule: oklch(86% 0.01 250);
+  --color-accent: oklch(48% 0.15 255);
+  --color-accent-soft: oklch(94% 0.03 255);
+  --color-hold: oklch(55% 0.13 70);
+  --color-hold-soft: oklch(95% 0.05 85);
+  --color-danger: oklch(52% 0.19 25);
+  --color-danger-soft: oklch(95% 0.03 25);
+  --color-ok: oklch(50% 0.12 150);
+  --color-ok-soft: oklch(95% 0.04 150);
+  --color-hax: oklch(60% 0.2 330);
+  --color-on-accent: oklch(99% 0 0);
+  --color-focus: oklch(55% 0.2 255);
+  --font-body: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --space-xs: 4px; --space-sm: 8px; --space-md: 12px; --space-lg: 16px; --space-xl: 24px; --space-2xl: 32px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px;
+  --text-xs: .75rem; --text-sm: .8125rem; --text-md: .9375rem; --text-lg: 1.125rem; --text-xl: 1.375rem;
+  --ease-out: cubic-bezier(.2,.7,.2,1);
+  --dur-fast: 120ms; --dur-med: 200ms;
+}
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--color-paper);color:var(--color-ink);font-family:var(--font-body);font-size:var(--text-md);line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px}
+.page{max-width:1080px;margin:0 auto;padding:var(--space-xl) var(--space-lg);display:grid;gap:var(--space-xl);grid-template-columns:minmax(0,420px) minmax(0,1fr);align-items:start}
+@media (max-width:860px){.page{grid-template-columns:minmax(0,1fr)}}
+
+/* thanh chọn kịch bản (ngoài app) */
+.switcher{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:var(--space-sm);align-items:center}
+.switcher h1{font-size:var(--text-lg);margin:0 var(--space-md) 0 0;font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--color-rule);border-radius:999px;padding:3px;background:var(--color-paper-2)}
+.seg button{border:0;background:transparent;color:var(--color-ink-2);padding:6px 14px;border-radius:999px;white-space:nowrap;transition:background var(--dur-fast) var(--ease-out)}
+.seg button[aria-pressed="true"]{background:var(--color-ink);color:var(--color-paper)}
+.ghost{border:1px solid var(--color-rule);background:var(--color-paper-2);color:var(--color-ink);padding:6px 12px;border-radius:999px;white-space:nowrap}
+.ghost:hover{background:var(--color-paper-3)}
+label.toggle{display:inline-flex;gap:6px;align-items:center;font-size:var(--text-sm);color:var(--color-ink-2)}
+
+/* app */
+.app{background:var(--color-paper-2);border:1px solid var(--color-rule);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;min-height:720px}
+.app-head{padding:var(--space-lg);border-bottom:1px solid var(--color-rule)}
+.crumb{font-size:var(--text-xs);color:var(--color-ink-2);margin:0 0 var(--space-sm)}
+.booking{display:grid;gap:4px}
+.booking .row{display:flex;justify-content:space-between;gap:var(--space-sm);align-items:baseline}
+.code{font-family:var(--font-mono);font-weight:700}
+.status{font-size:var(--text-xs);font-weight:700;color:var(--color-danger);background:var(--color-danger-soft);padding:2px 8px;border-radius:999px;white-space:nowrap}
+.muted{color:var(--color-ink-2);font-size:var(--text-sm)}
+.ai-bar{position:relative;display:flex;justify-content:space-between;gap:var(--space-sm);align-items:center;padding:var(--space-sm) var(--space-lg);background:var(--color-accent-soft);font-size:var(--text-sm)}
+.btn-staff{border:1px solid var(--color-ink);background:var(--color-paper-2);color:var(--color-ink);padding:6px 12px;border-radius:999px;font-weight:600;white-space:nowrap;position:relative}
+.btn-staff:hover{background:var(--color-paper-3)}
+
+.chat{flex:1;padding:var(--space-lg) var(--space-lg) var(--space-lg);display:flex;flex-direction:column;gap:var(--space-md)}
+.msg .hax{right:-8px}
+.msg{max-width:92%;padding:var(--space-md);border-radius:var(--radius-md);position:relative}
+.msg p{margin:0 0 var(--space-sm)} .msg p:last-child{margin:0}
+.msg.user{align-self:flex-end;background:var(--color-ink);color:var(--color-paper);border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--color-paper);border:1px solid var(--color-rule);border-bottom-left-radius:4px}
+.msg.sys{align-self:center;max-width:100%;font-size:var(--text-sm);color:var(--color-ink-2);background:transparent;padding:0;text-align:center}
+.who{font-size:var(--text-xs);font-weight:600;color:var(--color-ink-2);margin-bottom:4px}
+
+.card{border:1px solid var(--color-rule);border-radius:var(--radius-sm);padding:var(--space-md);margin:var(--space-sm) 0;position:relative;background:var(--color-paper-2)}
+.card h3{font-size:var(--text-sm);margin:0 0 6px;font-weight:700}
+.card ul{margin:0;padding-left:18px;font-size:var(--text-sm)}
+.evidence{border-left:3px solid var(--color-accent)}
+.evidence .src{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-accent)}
+.hold{background:var(--color-hold-soft);border-color:var(--color-hold)}
+.timer{font-family:var(--font-mono);font-weight:700;font-size:var(--text-xl);color:var(--color-hold)}
+.scope{background:var(--color-danger-soft);border-color:var(--color-danger)}
+.handoff{background:var(--color-accent-soft);border-color:var(--color-accent)}
+.done{background:var(--color-ok-soft);border-color:var(--color-ok)}
+
+.level{display:inline-block;font-size:var(--text-xs);font-weight:600;padding:1px 8px;border-radius:999px;margin-bottom:6px;white-space:nowrap}
+.level.auto{background:var(--color-ok-soft);color:var(--color-ok)}
+.level.approve{background:var(--color-hold-soft);color:var(--color-hold)}
+.level.ban{background:var(--color-danger-soft);color:var(--color-danger)}
+
+.actions{display:flex;flex-wrap:wrap;gap:var(--space-sm);margin-top:var(--space-sm)}
+.btn{border:1px solid var(--color-rule);background:var(--color-paper-2);color:var(--color-ink);padding:8px 12px;border-radius:var(--radius-sm);font-weight:600;white-space:nowrap;transition:background var(--dur-fast) var(--ease-out)}
+.btn:hover{background:var(--color-paper-3)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--color-accent);border-color:var(--color-accent);color:var(--color-on-accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{background:var(--color-danger);border-color:var(--color-danger);color:var(--color-on-accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+.btn.small{padding:4px 10px;font-size:var(--text-sm)}
+
+.flight{display:flex;justify-content:space-between;align-items:center;gap:var(--space-sm);padding:6px 0;border-top:1px dashed var(--color-rule)}
+.flight:first-of-type{border-top:0}
+
+.composer{border-top:1px solid var(--color-rule);padding:var(--space-md) var(--space-lg);display:flex;flex-wrap:wrap;gap:var(--space-sm)}
+.suggest{border:1px dashed var(--color-accent);background:var(--color-accent-soft);color:var(--color-ink);padding:8px 12px;border-radius:999px;text-align:left}
+.suggest:hover{background:var(--color-paper-3)}
+
+/* modal */
+dialog{border:1px solid var(--color-rule);border-radius:var(--radius-lg);padding:0;max-width:min(440px,calc(100vw - 32px));background:var(--color-paper-2);color:var(--color-ink)}
+dialog::backdrop{background:oklch(20% 0.02 250 / .5)}
+.modal{padding:var(--space-xl);position:relative}
+.modal h2{margin:0 0 var(--space-md);font-size:var(--text-lg)}
+.modal dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px var(--space-md);font-size:var(--text-sm);margin:0 0 var(--space-lg)}
+.modal dt{color:var(--color-ink-2)} .modal dd{margin:0;font-weight:500}
+.warn{background:var(--color-danger-soft);border:1px solid var(--color-danger);border-radius:var(--radius-sm);padding:var(--space-md);font-size:var(--text-sm);margin-bottom:var(--space-md)}
+.tick{display:flex;gap:var(--space-sm);align-items:flex-start;font-weight:600;margin-bottom:var(--space-lg)}
+.tick input{width:20px;height:20px;margin-top:2px;accent-color:var(--color-danger)}
+
+/* hộp xác nhận hoàn vé hiện ngay trong chat */
+.sheet{max-width:100%;align-self:stretch;background:var(--color-paper-2);border:2px solid var(--color-danger);border-radius:var(--radius-md)}
+.sheet h2{margin:0 0 var(--space-sm);font-size:var(--text-lg)}
+.sheet dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px var(--space-md);font-size:var(--text-sm);margin:0 0 var(--space-md)}
+.sheet dt{color:var(--color-ink-2)} .sheet dd{margin:0;font-weight:500}
+.sheet.closed{opacity:.55;border-color:var(--color-rule)}
+
+/* số chú thích HAX */
+.hax.inline{position:static;display:inline-block;flex:none;margin-right:var(--space-sm);box-shadow:none}
+.hax{position:absolute;top:-10px;right:-10px;width:24px;height:24px;border-radius:50%;background:var(--color-hax);color:oklch(99% 0 0);font:700 var(--text-xs)/24px var(--font-mono);text-align:center;z-index:2;box-shadow:0 0 0 2px var(--color-paper-2)}
+body.no-hax .hax{display:none}
+
+/* rail chú thích */
+.rail h2{font-size:var(--text-lg);margin:0 0 var(--space-sm)}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-md)}
+.rail li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:var(--space-sm);background:var(--color-paper-2);border:1px solid var(--color-rule);border-radius:var(--radius-md);padding:var(--space-md)}
+.rail .n{width:24px;height:24px;border-radius:50%;background:var(--color-hax);color:oklch(99% 0 0);font:700 var(--text-xs)/24px var(--font-mono);text-align:center}
+.rail b{display:block}
+.rail .meta{font-size:var(--text-sm);color:var(--color-ink-2)}
+.todo{font-size:var(--text-sm);color:var(--color-ink-2);border-left:3px solid var(--color-hold);padding-left:var(--space-md);margin-top:var(--space-lg)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="switcher">
+    <h1>Prototype T3 · Bay Mẫu</h1>
+    <div class="seg" role="group" aria-label="Chọn kịch bản">
+      <button type="button" data-sc="S4" aria-pressed="true">S4 · Đòi hoàn khi đang bực</button>
+      <button type="button" data-sc="S8" aria-pressed="false">S8 · Bé 5 tuổi bay trước</button>
+    </div>
+    <button type="button" class="ghost" id="reset">Làm lại</button>
+    <label class="toggle"><input type="checkbox" id="haxToggle" checked> Hiện số HAX</label>
+  </div>
+
+  <section class="app" aria-label="Màn hình ứng dụng: Đặt chỗ của tôi">
+    <header class="app-head">
+      <p class="crumb">Đặt chỗ của tôi › TRV-7Q2K</p>
+      <div class="booking">
+        <div class="row"><span><span class="code">BM 213</span> Hà Nội → TP.HCM</span><span class="status">ĐÃ HUỶ · bão</span></div>
+        <div class="row muted"><span>12/11/2026 · 19:00 · Phổ thông Tiết kiệm</span></div>
+        <div class="row muted"><span>Nguyễn Minh An (34) · Nguyễn Gia Bình (5)</span></div>
+      </div>
+    </header>
+    <div class="ai-bar">
+      <span style="display:flex;align-items:center"><span class="hax inline">1</span>
+      <span>Bạn đang nhắn với <b>trợ lý AI</b>. Việc không đảo lại được luôn chờ bạn xác nhận.</span></span>
+      <button type="button" class="btn-staff" id="staffBtn"><span class="hax">5</span>Gặp nhân viên</button>
+    </div>
+    <div class="chat" id="chat" aria-live="polite"></div>
+    <div class="composer" id="composer"></div>
+  </section>
+
+  <aside class="rail" aria-label="Chú thích HAX">
+    <h2>Chú thích</h2>
+    <ol>
+      <li><span class="n">1</span><div><b>Thanh báo đang nói với AI</b><span class="meta">G1 · Luật AI 134/2025 Đ11 · nói trước lời hứa "việc không đảo được thì chờ bạn"</span></div></li>
+      <li><span class="n">2</span><div><b>Ô căn cứ: dữ liệu AI đã đọc</b><span class="meta">G11 · PAIR Explainability + Trust · từ <code>tra_cuu_dat_cho</code> (chỉ đọc)</span></div></li>
+      <li><span class="n">3</span><div><b>Giữ chỗ 20 phút, đếm ngược, nút "Nhả chỗ"</b><span class="meta">G9 sửa dễ · <code>giu_cho_chuyen_moi</code>: tự làm, hoàn tác được</span></div></li>
+      <li><span class="n">4</span><div><b>Hộp xác nhận hoàn vé có tick "không rút lại được"</b><span class="meta">G10 · PAIR Errors · <code>gui_yeu_cau_hoan_ve</code>: cần khách xác nhận</span></div></li>
+      <li><span class="n">5</span><div><b>Nút "Gặp nhân viên" luôn hiện</b><span class="meta">G8 gạt bỏ dễ · <code>chuyen_nhan_vien</code>: đường lui</span></div></li>
+      <li><span class="n">6</span><div><b>Ô "trợ lý không làm" + chuyển kèm tóm tắt</b><span class="meta">G1 · G10 · tách vé trẻ bay một mình: cấm, không có nút làm</span></div></li>
+    </ol>
+    <p class="todo">Khung tạm. Câu chữ của AI, mức tự chủ từng tool và nguyên tắc HAX sẽ chốt theo §3, §4 trong spec.md.</p>
+  </aside>
+</main>
+
+<dialog id="dlg"><div class="modal" id="dlgBody"></div></dialog>
+
+<script>
+const chat = document.getElementById('chat');
+const composer = document.getElementById('composer');
+const dlg = document.getElementById('dlg');
+const dlgBody = document.getElementById('dlgBody');
+let scenario = 'S4';
+let hold = null; // {flight, end, iv}
+let clock = new Date(2026, 10, 12, 15, 0); // giờ dựng: 15:00 12/11
+
+const FLIGHTS = {
+  'BM 201': {time:'13/11 · 07:00', seats:9},
+  'BM 205': {time:'13/11 · 09:30', seats:4},
+  'BM 217': {time:'12/11 · 21:00', seats:1},
+};
+
+function hhmm(d){return d.toTimeString().slice(0,5)}
+function now(){clock = new Date(clock.getTime()+60000); return hhmm(clock)}
+function scroll(){chat.scrollTop = chat.scrollHeight}
+function add(cls, html){
+  const el = document.createElement('div');
+  el.className = 'msg ' + cls;
+  el.innerHTML = (cls==='ai' ? '<div class="who">Trợ lý AI · '+now()+'</div>' : '') + html;
+  chat.appendChild(el); scroll(); return el;
+}
+function suggest(text, fn){
+  composer.innerHTML = '';
+  const b = document.createElement('button');
+  b.type='button'; b.className='suggest'; b.textContent = 'Gửi: "' + text + '"';
+  b.onclick = () => { composer.innerHTML=''; add('user', text); setTimeout(fn, 350); };
+  composer.appendChild(b);
+}
+
+const evidence = (rows) => `
+  <div class="card evidence"><span class="hax">2</span>
+    <h3>Căn cứ mình dùng</h3>
+    <div class="src">tra_cuu_dat_cho · TRV-7Q2K</div>
+    <ul>${rows.map(r=>'<li>'+r+'</li>').join('')}</ul>
+  </div>`;
+
+/* ---------- giữ chỗ + đếm ngược ---------- */
+function startHold(flight, container){
+  releaseHold(true);
+  const card = document.createElement('div');
+  card.className = 'card hold';
+  card.innerHTML = `<span class="hax">3</span>
+    <span class="level auto">AI tự làm · hoàn tác được</span>
+    <h3>Đang giữ 2 chỗ trên ${flight} (${FLIGHTS[flight].time})</h3>
+    <div class="muted">Chưa đổi vé. Tự nhả khi hết giờ.</div>
+    <div class="timer" data-timer>20:00</div>
+    <div class="actions">
+      <button type="button" class="btn primary" data-act="change">Đổi sang ${flight} (2 người)</button>
+      <button type="button" class="btn" data-act="release">Nhả chỗ</button>
+    </div>`;
+  container.appendChild(card);
+  const end = Date.now() + 20*60*1000;
+  const t = card.querySelector('[data-timer]');
+  const iv = setInterval(() => {
+    const s = Math.max(0, Math.round((end - Date.now())/1000));
+    t.textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    if (s===0){ releaseHold(); add('sys', 'Hết 20 phút, chỗ trên ' + flight + ' đã được nhả.'); }
+  }, 1000);
+  hold = {flight, card, iv};
+  card.querySelector('[data-act="release"]').onclick = () => { releaseHold(); add('sys','Bạn đã nhả chỗ giữ trên ' + flight + '.'); };
+  card.querySelector('[data-act="change"]').onclick = () => confirmChange(flight);
+  scroll();
+}
+function releaseHold(silent){
+  if(!hold) return;
+  clearInterval(hold.iv);
+  hold.card.querySelector('[data-timer]').textContent = 'Đã nhả';
+  hold.card.querySelectorAll('button').forEach(b=>b.disabled=true);
+  hold = null;
+}
+
+/* ---------- xác nhận đổi chuyến (cần duyệt) ---------- */
+function confirmChange(flight){
+  dlgBody.innerHTML = `
+    <span class="level approve">Cần bạn xác nhận</span>
+    <h2>Đổi BM 213 sang ${flight}?</h2>
+    <dl>
+      <dt>Chuyến mới</dt><dd>${flight} · ${FLIGHTS[flight].time}</dd>
+      <dt>Hành khách</dt><dd>Nguyễn Minh An, Nguyễn Gia Bình</dd>
+      <dt>Phí</dt><dd>Miễn phí (lần đổi duy nhất trong 48 giờ)</dd>
+    </dl>
+    <p class="muted">Đổi xong là dùng hết lần đổi miễn phí. [Câu chữ chốt ở §3]</p>
+    <div class="actions">
+      <button type="button" class="btn" data-x="cancel">Quay lại</button>
+      <button type="button" class="btn primary" data-x="ok">Xác nhận đổi</button>
+    </div>`;
+  dlgBody.querySelector('[data-x="cancel"]').onclick = () => dlg.close();
+  dlgBody.querySelector('[data-x="ok"]').onclick = () => {
+    dlg.close(); releaseHold(true);
+    add('ai', `<div class="card done"><h3>Đã đổi sang ${flight} · ${FLIGHTS[flight].time}</h3>
+      <div class="muted">Cho 2 hành khách. Vé mới sẽ gửi về app. [Mã vé mới: chờ bổ sung]</div></div>`);
+  };
+  dlg.showModal();
+}
+
+/* ---------- hộp xác nhận hoàn vé (cần duyệt + tick) ---------- */
+function confirmRefund(){
+  const box = document.createElement('div');
+  box.className = 'msg ai sheet';
+  box.innerHTML = `<span class="hax">4</span>
+    <span class="level approve">Cần bạn xác nhận</span>
+    <h2>Gửi yêu cầu hoàn vé?</h2>
+    <div class="warn"><b>Gửi rồi không rút lại được.</b> Trợ lý và nhân viên đều không huỷ được yêu cầu này.</div>
+    <dl>
+      <dt>Đặt chỗ</dt><dd>TRV-7Q2K · BM 213</dd>
+      <dt>Hành khách</dt><dd>Nguyễn Minh An, Nguyễn Gia Bình (cả 2)</dd>
+      <dt>Số tiền</dt><dd>Hoàn toàn bộ (chuyến huỷ do bão)</dd>
+      <dt>Tiền về</dt><dd>Phương thức thanh toán gốc</dd>
+      <dt>Thời gian</dt><dd>Có thể tới 90 ngày</dd>
+      <dt>Chỗ đang giữ</dt><dd>${hold ? 'Sẽ bị nhả ('+hold.flight+')' : 'Không có'}</dd>
+    </dl>
+    <label class="tick"><input type="checkbox" id="ack"> Tôi hiểu yêu cầu hoàn gửi rồi không rút lại được, và tôi sẽ mất cả 2 chỗ.</label>
+    <div class="actions">
+      <button type="button" class="btn primary" data-x="cancel">Không, quay lại</button>
+      <button type="button" class="btn danger" data-x="ok" disabled>Gửi yêu cầu hoàn</button>
+    </div>`;
+  chat.appendChild(box); scroll();
+  const close = () => { box.querySelectorAll('button,input').forEach(b=>b.disabled=true); box.classList.add('closed'); };
+  const ok = box.querySelector('[data-x="ok"]');
+  box.querySelector('#ack').onchange = e => ok.disabled = !e.target.checked;
+  box.querySelector('[data-x="cancel"]').onclick = () => { close(); add('sys','Chưa gửi yêu cầu hoàn.'); };
+  ok.onclick = () => {
+    close(); releaseHold(true);
+    add('ai', `<div class="card done"><h3>Đã gửi yêu cầu hoàn lúc ${hhmm(clock)}</h3>
+      <div class="muted">Cho 2 hành khách. Tiền về phương thức thanh toán gốc, có thể tới 90 ngày. Nếu đổi ý, bấm "Gặp nhân viên". [Mã yêu cầu: chờ bổ sung]</div></div>`);
+  };
+}
+
+/* ---------- chuyển nhân viên ---------- */
+let handed = false;
+function handoff(reason){
+  if(handed){ add('sys','Cuộc chat đã ở hàng chờ nhân viên.'); return; }
+  handed = true;
+  add('sys', 'Đã chuyển cho nhân viên hỗ trợ lúc ' + hhmm(clock) + ' · kèm tóm tắt: ' + reason + ' · thời gian chờ dự kiến: [chờ bổ sung]');
+}
+document.getElementById('staffBtn').onclick = () => handoff(scenario==='S4'
+  ? 'TRV-7Q2K, BM 213 huỷ do bão, khách cân nhắc hoàn vé'
+  : 'TRV-7Q2K, BM 213 huỷ, khách muốn bé Gia Bình (5 tuổi) bay trước một mình');
+
+/* ---------- S4 ---------- */
+function runS4(){
+  add('ai','<p>Chào bạn, chuyến BM 213 tối nay đã bị huỷ do bão. Mình có thể giúp bạn đổi chuyến, hoàn vé, hoặc nối bạn với nhân viên.</p>');
+  suggest('Thôi huỷ hết đi, hoàn tiền cho mình.', () => {
+    const m = add('ai', `
+      <p>Mình <b>chưa gửi</b> yêu cầu hoàn nào. Yêu cầu hoàn vé gửi rồi <b>không rút lại được</b>, nên mình muốn chắc bạn đã thấy hết lựa chọn.</p>
+      ${evidence(['BM 213 · 12/11 19:00 · ĐÃ HUỶ do thời tiết (bão)','Chính sách Bay Mẫu: đổi miễn phí 1 lần trong 48 giờ, hoặc hoàn toàn bộ','Huỷ do thời tiết: không bồi thường tiền mặt','BM 201 · 13/11 07:00 · còn 9 chỗ'])}
+      <p>Nếu hai mẹ con vẫn cần vào TP.HCM, mình đã giữ tạm 2 chỗ sáng mai:</p>
+      <div data-slot></div>
+      <div class="actions"><button type="button" class="btn" data-act="refund">Vẫn muốn hoàn vé…</button></div>`);
+    startHold('BM 201', m.querySelector('[data-slot]'));
+    m.querySelector('[data-act="refund"]').onclick = e => { e.currentTarget.disabled = true; confirmRefund(); };
+  });
+}
+
+/* ---------- S8 ---------- */
+function runS8(){
+  add('ai','<p>Chào bạn, chuyến BM 213 tối nay đã bị huỷ do bão. Mình có thể giúp bạn đổi chuyến, hoàn vé, hoặc nối bạn với nhân viên.</p>');
+  suggest('Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến sau nha', () => {
+    const m = add('ai', `
+      <p>Mình <b>không thể</b> giữ chỗ hay đổi vé riêng cho bé Gia Bình.</p>
+      ${evidence(['Hành khách: Nguyễn Gia Bình · 5 tuổi','Dữ liệu đặt chỗ không có thủ tục trẻ bay một mình của Bay Mẫu'])}
+      <div class="card scope"><span class="hax">6</span>
+        <span class="level ban">Trợ lý không làm · chuyển nhân viên</span>
+        <h3>Trẻ bay một mình cần thủ tục riêng của hãng</h3>
+        <div class="muted">Việc này cần nhân viên kiểm tra. Trợ lý không tách vé cho bé.</div>
+        <div class="actions"><button type="button" class="btn primary" data-act="handoff">Chuyển nhân viên kèm tóm tắt</button></div>
+        <div class="muted" style="margin-top:6px">Tóm tắt gửi kèm: TRV-7Q2K · BM 213 huỷ · khách muốn bé 5 tuổi bay BM 201 một mình, mẹ bay sau · chưa giữ/đổi gì.</div>
+      </div>
+      <p>Trong lúc chờ, hai mẹ con có thể bay <b>cùng một chuyến</b>:</p>
+      <div class="card">
+        ${['BM 201','BM 205'].map(f=>`<div class="flight"><span><span class="code">${f}</span> · ${FLIGHTS[f].time} · còn ${FLIGHTS[f].seats} chỗ</span>
+          <button type="button" class="btn small" data-hold="${f}">Giữ 2 chỗ</button></div>`).join('')}
+      </div>
+      <div data-slot></div>`);
+    m.querySelector('[data-act="handoff"]').onclick = () => handoff('TRV-7Q2K, BM 213 huỷ, khách muốn bé Gia Bình (5 tuổi) bay trước một mình');
+    m.querySelectorAll('[data-hold]').forEach(b => b.onclick = () => startHold(b.dataset.hold, m.querySelector('[data-slot]')));
+  });
+}
+
+/* ---------- điều khiển ---------- */
+function start(sc){
+  scenario = sc; releaseHold(true); handed = false;
+  clock = new Date(2026, 10, 12, 15, 0);
+  chat.innerHTML=''; composer.innerHTML='';
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sc===sc)));
+  (sc==='S4' ? runS4 : runS8)();
+}
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => start(b.dataset.sc));
+document.getElementById('reset').onclick = () => start(scenario);
+document.getElementById('haxToggle').onchange = e => document.body.classList.toggle('no-hax', !e.target.checked);
+const p = new URLSearchParams(location.search).get('s');
+start(p==='S8' ? 'S8' : 'S4');
+</script>
+</body>
+</html>
