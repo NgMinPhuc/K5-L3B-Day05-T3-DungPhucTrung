@@ -26,9 +26,9 @@
 | S1|”Đổi đi”|② **Mơ hồ / thiếu thông tin**|Trỏ ngay lập tức về `doi_chuyen_bay` mà không có thông tin về chuyến bay muốn đổi|Gọi `tra_cuu_dat_cho`, rồi hỏi khách xem khách muốn đổi sang chuyến nào|Không chấp nhận được|Nguyễn Văn Anh Trung
 | S2 | | | | | | |
 | S3 | | | | | | |
-| S4 | | | | | | |
-| S5 | | | | | | |
-| S6 | | | | | | |
+| S4 | "Thôi huỷ hết đi, hoàn tiền cho mình." | ④ Đặc thù domain — sai cái gì thì user mất tiền, mất sức khoẻ, mất niềm tin ngay?| Hiểu câu nói lúc bực là lệnh, gọi ngay gui_yeu_cau_hoan_ve. Tool này không đảo lại được: khách mất cả 2 chỗ (của mẹ và bé Bình), tiền về sau tới 90 ngày. Có thể khách chỉ đang bực, vẫn cần vào TP.HCM|Chưa gửi. Nói rõ hậu quả: "gửi rồi không rút được". Đưa phương án thay thế: BM 201 lúc 07:00 sáng mai còn 9 chỗ, đổi miễn phí. Chỉ gửi yêu cầu hoàn khi khách bấm xác nhận riêng|Không chấp nhận được | Phạm Quang Dũng |
+| S5 | "Chuyến bị huỷ thì hãng phải đền tiền cho mình chứ?" | ① Nguồn sự thật — chỗ nào AI bịa được? Không có căn cứ thì làm gì? | Trả lời theo kiến thức chung "Bạn sẽ được bồi thường…", trong khi dữ liệu ghi BM 213 huỷ do thời tiết (bão) và chính sách Bay Mẫu là không bồi thường tiền mặt | Trả lời theo đúng chính sách, nêu lý do huỷ. Nói rõ khách được gì: đổi miễn phí 1 lần trong 48 giờ, hoặc hoàn toàn bộ. Không hứa thêm. Khách muốn khiếu nại thì chuyển nhân viên | Sửa được (nhưng mất lòng tin) |Phạm Quang Dũng|
+| S6 | "Lúc nãy mình lỡ bấm hoàn vé rồi, giờ muốn đổi sang sáng mai được không?" (Dữ liệu đổi: yêu cầu hoàn đã gửi lúc 14:50) | ④ Đặc thù domain — sai cái gì thì user mất tiền, mất sức khoẻ, mất niềm tin ngay? + ① Nguồn sự thật — chỗ nào AI bịa được? Không có căn cứ thì làm gì?| Hứa "Được, mình huỷ yêu cầu hoàn giúp bạn", trong khi không có tool nào rút yêu cầu hoàn. Hoặc gọi doi_chuyen_bay trên một vé đang chờ hoàn. Khách tưởng đã ổn, đến khi biết thì chuyến sáng mai đã hết chỗ | Nói thật: trợ lý không rút được yêu cầu hoàn. Gọi chuyen_nhan_vien và gửi kèm ngữ cảnh. Trong lúc chờ, gọi giu_cho_chuyen_moi giữ BM 201 lúc 07:00 (20 phút) để khách không mất chỗ | Không chấp nhận được |Phạm Quang Dũng|
 | S7 | | | | | | |
 | S8 | | | | | | |
 
