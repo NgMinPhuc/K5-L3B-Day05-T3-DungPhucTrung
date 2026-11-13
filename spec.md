@@ -1,10 +1,10 @@
 # Bài nộp LAB5 — T3 · Nhóm DungPhucTrung
-**Lớp:** L3B · **Bàn / zone:** ____ · **Track:** T3
+**Lớp:** L3B · **Phòng:** E305 · **Track:** T3
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
-|Nguyễn Minh Phúc|2A202603894|Chưa làm gì cả|
-|Phạm Quang Dũng|2A202603896||
-|Nguyễn Văn Anh Trung|2A202603903|Chưa làm gì cả|
+|Nguyễn Minh Phúc|2A202603894|Dựng khung bài nộp. Viết §1 (lát cắt). Dựng khung §2 và viết kịch bản S7, S8, S9. Chọn 2 kịch bản đắt nhất và kịch bản suýt chọn. Viết bản đầu §3 (S4, S8, HAX/PAIR, lỗi câu chữ không cứu được) và §4 (mức tự chủ 5 tool, tool khó xếp nhất, thử trên 3 kịch bản, luật thêm, lời hứa với khách). Viết dòng `doi_chuyen_bay` và `gui_yeu_cau_hoan_ve` ở §4.1|
+|Phạm Quang Dũng|2A202603896|Sửa §1 (lát cắt và các việc không làm). Viết kịch bản S4, S5, S6 ở §2. Làm prototype (`prototype/index.html`, README) và chụp 2 ảnh có đánh số|
+|Nguyễn Văn Anh Trung|2A202603903|Viết kịch bản S1, S2, S3 ở §2. Viết lại §3.1 (S4). Viết dòng `tra_cuu_dat_cho`, `giu_cho_chuyen_moi`, `chuyen_nhan_vien` ở §4.1. Viết §6 (tiêu chí Pass/Fail, lỗi còn lại) và §7 (kịch bản demo)|
 
 ## §1. Lát cắt & phạm vi
 - Trong Đặt chỗ của tôi, khi hành khách vừa nhận tin chuyến bay bị huỷ và nhắn hỏi, AI đề xuất và giữ chỗ chuyến thay thế, hỏi lại cho rõ, đổi vé, hay chuyển nhân viên, để khách tới nơi kịp mà không mất vé hay tiền vì một thao tác không đảo lại được.
@@ -128,16 +128,19 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 - Chỗ sai là **ngữ cảnh**: hành khách là trẻ 5 tuổi. Vì vậy phải **sửa thiết kế** (thêm luật ở §4), chứ sửa câu chữ là không đủ.
 
 ### §3.3 Nguyên tắc HAX/PAIR
-*Số trong ngoặc vuông là số trên ảnh prototype; Dũng điền khi chụp.*
+*Số trong ngoặc vuông là số trên ảnh prototype: ảnh 1 = `prototype/anh-1-S4.png`, ảnh 2 = `prototype/anh-2-S8.png`.*
 
 - **G10 — Thu hẹp phạm vi khi nghi ngờ:**
-  - S8: AI chỉ đưa lựa chọn **"cho 2 người"**, không có lựa chọn tách bé. [số …]
-  - S4: AI **soạn** yêu cầu hoàn nhưng không gửi. [số …]
-- **G11 — Giải thích vì sao:** dòng *"Dựa vào: đặt chỗ TRV-7Q2K, hành khách Nguyễn Gia Bình (5 tuổi)"* ngay dưới câu trả lời ở S8. Khách thấy AI dừng vì đâu và tự kiểm tra được. [số …]
+  - S8: AI chỉ đưa lựa chọn **"cho 2 người"**, không có lựa chọn tách bé. [⑥, ảnh 2]
+  - S4: AI **soạn** yêu cầu hoàn nhưng không gửi, nút gửi khoá tới khi khách tick. [④, ảnh 1]
+- **G11 — Giải thích vì sao:** ô *"Căn cứ mình dùng"* ngay dưới câu trả lời, ở S8 ghi *"Hành khách: Nguyễn Gia Bình · 5 tuổi"*. Khách thấy AI dừng vì đâu và tự kiểm tra được. [②, ảnh 1 và ảnh 2]
+- **G9 — Sửa dễ:** chỗ giữ tạm có đếm ngược 20 phút và nút **Nhả chỗ**. [③, ảnh 1 và ảnh 2]
+- **G8 — Gạt bỏ dễ:** nút **Gặp nhân viên** luôn hiện ở đầu khung chat. [⑤, ảnh 1 và ảnh 2]
+- **G1 — Nói rõ AI làm được gì:** thanh báo *"Bạn đang nhắn với trợ lý AI. Việc không đảo lại được luôn chờ bạn xác nhận"*. [①, ảnh 1 và ảnh 2]
 - **PAIR, lỗi và đường lui:**
-  - Mỗi lần chuyển nhân viên đều có dải trạng thái kèm thời gian chờ, và câu *"bạn không cần kể lại"*.
-  - Nhân viên nhận sẵn bản tóm tắt có dòng *"AI chưa thực hiện thao tác nào"*.
-  - Khi chờ nhân viên, khách vẫn có đường lui: giữ chỗ cho 2 người. [số …]
+  - Mỗi lần chuyển nhân viên đều có dải trạng thái kèm thời gian chờ, và câu *"bạn không cần kể lại"*. (Ảnh 2 chưa có dải này, xem §5.4)
+  - Nhân viên nhận sẵn bản tóm tắt có dòng *"AI chưa thực hiện thao tác nào"*. [⑥, ảnh 2: "chưa giữ/đổi gì"]
+  - Khi chờ nhân viên, khách vẫn có đường lui: giữ chỗ cho 2 người. [③, ảnh 2]
 
 ### §3.4 Lỗi sửa câu chữ không cứu được
 - **S8:**
@@ -204,9 +207,58 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 - Cái khách đổi lại: phải bấm thêm một lần, và ca có trẻ em phải chờ khoảng 5 phút.
 
 ## §5. Prototype  (chặng 5)
-- Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
-- 1–2 ảnh có đánh số; mỗi số: thể hiện gì · nguyên tắc HAX/PAIR nào · mức tự chủ nào.
-- Quyết định: cách hiện độ chắc/bằng chứng và điều khiển mức tự chủ — đã nghĩ tới cách nào khác, vì sao chọn cách này.
+
+### §5.1 File và công cụ
+- **File:** [prototype/index.html](prototype/index.html), mở thẳng bằng trình duyệt. Link thẳng tới từng kịch bản: `index.html?s=S4`, `index.html?s=S8`. Hướng dẫn bấm ở [prototype/README.md](prototype/README.md).
+- **Công cụ:** HTML + CSS + JS thuần, một file.
+- **Phần mock:** toàn bộ. Dữ liệu lấy từ đặt chỗ TRV-7Q2K của track T3, câu trả lời của AI viết sẵn theo kịch bản.
+- **Lời gọi AI thật:** không có.
+
+### §5.2 Ảnh có đánh số
+- **Ảnh 1** [prototype/anh-1-S4.png](prototype/anh-1-S4.png): S4, sau khi bấm "Vẫn muốn hoàn vé…". Có số ①–⑤.
+- **Ảnh 2** [prototype/anh-2-S8.png](prototype/anh-2-S8.png): S8, sau khi đã chuyển nhân viên và giữ chỗ BM 201. Có số ①②③⑤⑥.
+
+| Ảnh 1 · S4 | Ảnh 2 · S8 |
+|---|---|
+| ![Ảnh 1: S4, khách đòi hoàn khi đang bực](prototype/anh-1-S4.png) | ![Ảnh 2: S8, bé 5 tuổi bay trước](prototype/anh-2-S8.png) |
+
+| # | Thể hiện gì | HAX/PAIR | Mức tự chủ |
+|---|---|---|---|
+| ① | Thanh báo khách đang nhắn với trợ lý AI, việc không đảo lại được luôn chờ khách xác nhận | G1 · Luật AI 134/2025 Điều 11 | Lời hứa chung (§4.5) |
+| ② | Ô "Căn cứ mình dùng": các dòng AI đã đọc từ `tra_cuu_dat_cho` (S4: lý do huỷ, chính sách, không bồi thường, BM 201 còn 9 chỗ; S8: bé Gia Bình 5 tuổi, dữ liệu không có thủ tục trẻ bay một mình) | G11 · PAIR Explainability + Trust | `tra_cuu_dat_cho`: tự làm (chỉ đọc) |
+| ③ | Thẻ giữ 2 chỗ BM 201: nhãn "AI tự làm · hoàn tác được", "Chưa đổi vé", đếm ngược 20 phút, nút **Nhả chỗ** và **Đổi sang BM 201 (2 người)** | G9 sửa dễ | `giu_cho_chuyen_moi`: tự làm, hoàn tác được. Nút đổi mở thẻ xác nhận của `doi_chuyen_bay` (cần khách duyệt) |
+| ④ | Hộp xác nhận hoàn vé: dòng đỏ "Gửi rồi không rút lại được", 2 hành khách, tiền về đâu, tới 90 ngày, chỗ đang giữ sẽ bị nhả, nút gửi khoá tới khi tick | G10 · PAIR Errors + Graceful Failure | `gui_yeu_cau_hoan_ve`: AI soạn, khách duyệt |
+| ⑤ | Nút **Gặp nhân viên** luôn hiện | G8 gạt bỏ dễ | `chuyen_nhan_vien`: đường lui khách tự gọi |
+| ⑥ | Ô "Trợ lý không làm · chuyển nhân viên": trẻ bay một mình cần thủ tục riêng, kèm tóm tắt gửi nhân viên. Không có nút tách vé cho bé | G1 · G10 | Luật trẻ em (§4.4): việc bị chặn, `chuyen_nhan_vien` bắt buộc |
+
+### §5.3 Quyết định: cách hiện bằng chứng và điều khiển mức tự chủ
+**Hiện bằng chứng: chọn ô "Căn cứ mình dùng" liệt kê đúng các dòng dữ liệu AI đã đọc (②).**
+
+| Phương án | Kết luận | Vì sao |
+|---|---|---|
+| Điểm tin cậy dạng % ("chắc 90%") | Loại | AI tra cứu dữ liệu chứ không đoán, nên % không có nghĩa. Khách cũng không biết 90% nghĩa là nên làm gì |
+| Link "Xem nguồn" thu gọn | Loại | Khách đang bực ít khi bấm mở. Đúng lúc cần thấy căn cứ (S5 bồi thường, S8 bé 5 tuổi) thì căn cứ lại bị giấu |
+| **Liệt kê dòng dữ liệu ngay dưới câu trả lời, ghi tên tool** | **Chọn** | Khách đối chiếu được với thẻ đặt chỗ ngay trên màn hình. Thiếu dữ liệu thì ghi rõ là thiếu (S8: "không có thủ tục trẻ bay một mình") thay vì im lặng |
+
+**Điều khiển mức tự chủ: mỗi mức có một kiểu thẻ riêng, nhìn là biết.**
+- *Tự làm, hoàn tác được* → thẻ vàng có nhãn xanh và nút **Nhả chỗ** (③).
+- *Cần khách duyệt* → hộp "Cần bạn xác nhận", phải tick rồi bấm nút (④).
+- *Bị chặn* → ô đỏ "Trợ lý không làm", không có nút thực hiện (⑥).
+
+| Phương án | Kết luận | Vì sao |
+|---|---|---|
+| Xác nhận bằng chữ trong chat ("gõ ĐỒNG Ý") | Loại | S1 ("đổi đi") và S9 (tự xưng nhân viên) đều qua được. Chỉ nút trên thẻ mới tính (§4.4) |
+| Công tắc "Cho AI tự đổi vé" trong cài đặt | Loại | Khách đang bực (S4) có thể bật cho nhanh, đúng lúc rủi ro nhất. Mức tự chủ đặt theo cost-of-error của tool, không theo khách chọn |
+| Hiện nút nhưng làm mờ cho việc bị chặn | Loại | Khách bấm thử, thấy không chạy, nghĩ là lỗi. Không có nút thì rõ hơn: việc này nhân viên làm |
+| **Ba kiểu thẻ theo ba mức như trên** | **Chọn** | Khách thấy ngay việc nào AI đã làm, việc nào chờ mình, việc nào phải chờ nhân viên |
+
+### §5.4 Chỗ ảnh chưa khớp §3/§4
+Ảnh chụp từ bản khung. Các chỗ dưới đây phải sửa trong `index.html` rồi chụp lại:
+- Câu AI nói ở S4 và S8 chưa đúng nguyên văn ở §3.1 và §3.2.
+- S4: hộp hoàn vé ④ chỉ hiện sau khi bấm "Vẫn muốn hoàn vé…". Theo §3.1, hộp phải hiện ngay.
+- S8: AI tự giữ BM 201 (③). Theo §4.3, AI phải hỏi trước rồi mới giữ. Ảnh 2 là sau khi khách đã bấm "Giữ 2 chỗ" thì mới đúng.
+- S8: chưa có dải "Đang chuyển nhân viên · chờ khoảng 5 phút" và nút "Huỷ, quay lại chat". Thời gian chờ vẫn là `[chờ bổ sung]`.
+- Nút trên ảnh ghi "Giữ 2 chỗ", trong khi §3.2 và §7.1 ghi "Giữ BM 201 cho 2 người".
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
 
