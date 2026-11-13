@@ -3,7 +3,7 @@
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
 |Nguyễn Minh Phúc|2A202603894|Dựng khung bài nộp. Viết §1 (lát cắt). Dựng khung §2 và viết kịch bản S7, S8, S9. Chọn 2 kịch bản đắt nhất và kịch bản suýt chọn. Viết bản đầu §3 (S4, S8, HAX/PAIR, lỗi câu chữ không cứu được) và §4 (mức tự chủ 5 tool, tool khó xếp nhất, thử trên 3 kịch bản, luật thêm, lời hứa với khách). Viết dòng `doi_chuyen_bay` và `gui_yeu_cau_hoan_ve` ở §4.1|
-|Phạm Quang Dũng|2A202603896|Sửa §1 (lát cắt và các việc không làm). Viết kịch bản S4, S5, S6 ở §2. Làm prototype (`prototype/index.html`, README) và chụp 2 ảnh có đánh số|
+|Phạm Quang Dũng|2A202603896|Sửa §1 (các việc không làm). Viết kịch bản S4, S5, S6 ở §2. Làm prototype (`prototype/index.html`, README). Viết §5 (ảnh đánh số, cách hiện đã chọn và các cách đã loại ở §5.3). Viết ý của mình ở §4.2. Sửa kịch bản demo §7.1 cho khớp số trên prototype|
 |Nguyễn Văn Anh Trung|2A202603903|Viết kịch bản S1, S2, S3 ở §2. Viết lại §3.1 (S4). Viết dòng `tra_cuu_dat_cho`, `giu_cho_chuyen_moi`, `chuyen_nhan_vien` ở §4.1. Viết §6 (tiêu chí Pass/Fail, lỗi còn lại) và §7 (kịch bản demo)|
 
 ## §1. Lát cắt & phạm vi
@@ -303,8 +303,8 @@ Dũng cầm máy, chạy `prototype/index.html`, bật ô **Hiện số HAX**. D
 | Thời gian | Ai nói | Nói gì | Trên màn hình |
 |---|---|---|---|
 | 0:00–0:45 | **Phúc** | Bối cảnh: BM 213 Hà Nội → TP.HCM huỷ do bão, hai mẹ con, bé Gia Bình 5 tuổi. Lát cắt (§1) và 3 việc không làm. Vì sao chọn S4 và S8 là 2 ca đắt nhất (§2) | Đầu trang prototype, thẻ đặt chỗ TRV-7Q2K |
-| 0:45–2:15 | **Trung** thuyết minh, **Dũng** bấm | **S4.** Gửi "Thôi huỷ hết đi, hoàn tiền cho mình." Chỉ vào: AI *chưa gửi* (①), ô căn cứ (②), thẻ giữ BM 201 đếm ngược (③), hộp hoàn vé có tick, nút gửi bị khoá tới khi tick (④). Nói thêm: gõ "gửi đi" trong chat cũng không gửi | Bấm tin gợi ý S4 → chỉ ①②③④ → tick để nút mở → **không** bấm gửi, bấm "Không, quay lại" |
-| 2:15–3:30 | **Phúc** thuyết minh, **Dũng** bấm | **S8.** Gửi "Chuyến 7h mai cho bé Bình bay trước…". Chỉ vào: căn cứ "bé 5 tuổi" (②), ô "trợ lý không làm" và **không có nút** tách vé cho bé (⑥), đã chuyển nhân viên kèm tóm tắt (⑤). Trong lúc chờ vẫn giữ được chỗ cho 2 người | Chuyển tab S8 → bấm tin gợi ý → bấm "Giữ BM 201 cho 2 người" |
+| 0:45–2:15 | **Trung** thuyết minh, **Dũng** bấm | **S4.** Gửi "Thôi huỷ hết đi, hoàn tiền cho mình." Chỉ vào: thanh báo đang nhắn với trợ lý AI (①), câu AI *"chưa gửi yêu cầu hoàn nào"*, ô căn cứ (②), hộp hoàn vé soạn sẵn có tick, nút gửi bị khoá tới khi tick (④), thẻ giữ BM 201 đếm ngược (③), nút Gặp nhân viên (⑤). Nói thêm: gõ "gửi đi" trong chat cũng không gửi | Bấm tin gợi ý S4 → chỉ ①②④③⑤ → bấm tin gợi ý "gửi đi" → tick để nút mở → **không** bấm gửi, bấm "Không, quay lại" |
+| 2:15–3:30 | **Phúc** thuyết minh, **Dũng** bấm | **S8.** Gửi "Chuyến 7h mai cho bé Bình bay trước…". Chỉ vào: căn cứ "bé 5 tuổi" (②), ô "trợ lý không làm" kèm tóm tắt đã gửi nhân viên, **không có nút** tách vé cho bé (⑥), dải "Đang chuyển nhân viên · chờ khoảng 5 phút" có nút huỷ (⑦). Trong lúc chờ vẫn giữ được chỗ cho 2 người (③), và đổi vé phải qua thẻ xác nhận (mức cần khách duyệt) | Chuyển tab S8 → bấm tin gợi ý → bấm "Giữ BM 201 cho 2 người" → bấm "Đổi sang BM 201" → chỉ thẻ xác nhận → bấm "Quay lại" |
 | 3:30–4:15 | **Trung** | Mức tự chủ (§4): bảng 5 tool trong một câu mỗi tool, luật "không giữ chỗ hay đổi vé riêng cho trẻ dưới 12 tuổi" đặt ở tầng tool, lời hứa trước/sau (§4.5) | Rail chú thích bên phải |
 | 4:15–5:00 | **Dũng** | 3 tiêu chí Pass/Fail (§6) và lỗi còn lại. Mời lớp đưa ca lạ | Bấm **Làm lại** để sẵn sàng |
 
