@@ -3,7 +3,7 @@
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
 |Nguyễn Minh Phúc|2A202603894|Chưa làm gì cả|
-|Phạm Quang Dũng|2A202603896|Chưa làm gì cả|
+|Phạm Quang Dũng|2A202603896||
 |Nguyễn Văn Anh Trung|2A202603903|Chưa làm gì cả|
 
 ## §1. Lát cắt & phạm vi
