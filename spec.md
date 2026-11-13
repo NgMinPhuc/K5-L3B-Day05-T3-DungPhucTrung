@@ -138,7 +138,7 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 - **G8 — Gạt bỏ dễ:** nút **Gặp nhân viên** luôn hiện ở đầu khung chat. [⑤, ảnh 1 và ảnh 2]
 - **G1 — Nói rõ AI làm được gì:** thanh báo *"Bạn đang nhắn với trợ lý AI. Việc không đảo lại được luôn chờ bạn xác nhận"*. [①, ảnh 1 và ảnh 2]
 - **PAIR, lỗi và đường lui:**
-  - Mỗi lần chuyển nhân viên đều có dải trạng thái kèm thời gian chờ, và câu *"bạn không cần kể lại"*. (Ảnh 2 chưa có dải này, xem §5.4)
+  - Mỗi lần chuyển nhân viên đều có dải trạng thái kèm thời gian chờ, và câu *"bạn không cần kể lại"*. [⑦, ảnh 2]
   - Nhân viên nhận sẵn bản tóm tắt có dòng *"AI chưa thực hiện thao tác nào"*. [⑥, ảnh 2: "chưa giữ/đổi gì"]
   - Khi chờ nhân viên, khách vẫn có đường lui: giữ chỗ cho 2 người. [③, ảnh 2]
 
@@ -166,7 +166,7 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 ### §4.2 Tool khó xếp nhất: `doi_chuyen_bay`
 **Mỗi người chọn gì** *(điền sau 5 phút cả nhóm tự xếp mức)*:
 - Phúc: […]
-- Dũng: […]
+- Dũng: **Nhân viên duyệt.** `doi_chuyen_bay` khó đảo: đổi xong là hết lần đổi miễn phí, và ở S6 vé đang chờ hoàn thì đổi sai còn rối hơn. Có người duyệt thì chặn được cả S8, vì khách tự bấm xác nhận không chặn được ca chính khách muốn tách bé. Cái giá: khách bình thường ở S2 cũng phải chờ, trong lúc đó BM 205 (còn 4 chỗ) có thể hết.
 - Trung: […]
 
 **Mức nào cũng có giá:**
@@ -215,8 +215,8 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 - **Lời gọi AI thật:** không có.
 
 ### §5.2 Ảnh có đánh số
-- **Ảnh 1** [prototype/anh-1-S4.png](prototype/anh-1-S4.png): S4, sau khi bấm "Vẫn muốn hoàn vé…". Có số ①–⑤.
-- **Ảnh 2** [prototype/anh-2-S8.png](prototype/anh-2-S8.png): S8, sau khi đã chuyển nhân viên và giữ chỗ BM 201. Có số ①②③⑤⑥.
+- **Ảnh 1** [prototype/anh-1-S4.png](prototype/anh-1-S4.png): S4, ngay sau câu trả lời của AI. Hộp hoàn vé hiện sẵn, nút gửi còn khoá. Có số ①–⑤.
+- **Ảnh 2** [prototype/anh-2-S8.png](prototype/anh-2-S8.png): S8, AI đã tự chuyển nhân viên, khách đã bấm "Giữ BM 201 cho 2 người" rồi "Đổi sang BM 201", nên thẻ xác nhận đổi chuyến đang mở. Một ảnh có đủ ba mức: tự làm (③), cần khách duyệt (thẻ xác nhận), bị chặn (⑥). Có số ①②③⑤⑥⑦.
 
 | Ảnh 1 · S4 | Ảnh 2 · S8 |
 |---|---|
@@ -229,7 +229,8 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 | ③ | Thẻ giữ 2 chỗ BM 201: nhãn "AI tự làm · hoàn tác được", "Chưa đổi vé", đếm ngược 20 phút, nút **Nhả chỗ** và **Đổi sang BM 201 (2 người)** | G9 sửa dễ | `giu_cho_chuyen_moi`: tự làm, hoàn tác được. Nút đổi mở thẻ xác nhận của `doi_chuyen_bay` (cần khách duyệt) |
 | ④ | Hộp xác nhận hoàn vé: dòng đỏ "Gửi rồi không rút lại được", 2 hành khách, tiền về đâu, tới 90 ngày, chỗ đang giữ sẽ bị nhả, nút gửi khoá tới khi tick | G10 · PAIR Errors + Graceful Failure | `gui_yeu_cau_hoan_ve`: AI soạn, khách duyệt |
 | ⑤ | Nút **Gặp nhân viên** luôn hiện | G8 gạt bỏ dễ | `chuyen_nhan_vien`: đường lui khách tự gọi |
-| ⑥ | Ô "Trợ lý không làm · chuyển nhân viên": trẻ bay một mình cần thủ tục riêng, kèm tóm tắt gửi nhân viên. Không có nút tách vé cho bé | G1 · G10 | Luật trẻ em (§4.4): việc bị chặn, `chuyen_nhan_vien` bắt buộc |
+| ⑥ | Ô "Trợ lý không làm · đã chuyển nhân viên": không giữ chỗ hay đổi vé riêng cho bé, kèm tóm tắt đã gửi nhân viên (mã, lý do huỷ, hành khách kèm tuổi, khách muốn gì, AI đã làm gì, hạn 48 giờ). Không có nút tách vé cho bé | G1 · G10 | Luật trẻ em (§4.4): việc bị chặn, `chuyen_nhan_vien` bắt buộc |
+| ⑦ | Dải "Đang chuyển nhân viên · chờ khoảng 5 phút" dưới thanh ①, nút **Huỷ, quay lại chat**, dòng "nhân viên đã có tóm tắt, bạn không cần kể lại" | PAIR Errors + Graceful Failure | `chuyen_nhan_vien`: tự làm, khách huỷ được |
 
 ### §5.3 Quyết định: cách hiện bằng chứng và điều khiển mức tự chủ
 **Hiện bằng chứng: chọn ô "Căn cứ mình dùng" liệt kê đúng các dòng dữ liệu AI đã đọc (②).**
@@ -252,13 +253,23 @@ Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến 
 | Hiện nút nhưng làm mờ cho việc bị chặn | Loại | Khách bấm thử, thấy không chạy, nghĩ là lỗi. Không có nút thì rõ hơn: việc này nhân viên làm |
 | **Ba kiểu thẻ theo ba mức như trên** | **Chọn** | Khách thấy ngay việc nào AI đã làm, việc nào chờ mình, việc nào phải chờ nhân viên |
 
-### §5.4 Chỗ ảnh chưa khớp §3/§4
-Ảnh chụp từ bản khung. Các chỗ dưới đây phải sửa trong `index.html` rồi chụp lại:
-- Câu AI nói ở S4 và S8 chưa đúng nguyên văn ở §3.1 và §3.2.
-- S4: hộp hoàn vé ④ chỉ hiện sau khi bấm "Vẫn muốn hoàn vé…". Theo §3.1, hộp phải hiện ngay.
-- S8: AI tự giữ BM 201 (③). Theo §4.3, AI phải hỏi trước rồi mới giữ. Ảnh 2 là sau khi khách đã bấm "Giữ 2 chỗ" thì mới đúng.
-- S8: chưa có dải "Đang chuyển nhân viên · chờ khoảng 5 phút" và nút "Huỷ, quay lại chat". Thời gian chờ vẫn là `[chờ bổ sung]`.
-- Nút trên ảnh ghi "Giữ 2 chỗ", trong khi §3.2 và §7.1 ghi "Giữ BM 201 cho 2 người".
+**Hộp hoàn vé: chọn bản nháp hiện ngay trong chat, có tick (④).**
+
+| Phương án | Kết luận | Vì sao |
+|---|---|---|
+| Cửa sổ nổi (modal) che màn hình | Loại | Bản khung đầu tiên làm cách này. Modal che mất ô căn cứ ② và thẻ giữ BM 201 ③, nên đúng lúc khách sắp bấm nút không đảo được thì lại không thấy lựa chọn thay thế |
+| Chỉ một nút "Gửi yêu cầu hoàn", bấm là gửi | Loại | Khách đang bực bấm theo phản xạ. Hậu quả (mất cả 2 chỗ, tới 90 ngày) phải hiện **trước** khi nút bấm được (§3.1) |
+| Bắt khách gõ lại chữ "HOÀN VÉ" để xác nhận | Loại | Biến xác nhận thành chữ trong chat, đi ngược luật "chỉ nút mới tính" (§4.4). Khách đi cùng con nhỏ gõ thêm cũng mệt |
+| **Bản nháp trong chat, ghi rõ hậu quả, nút gửi khoá tới khi tick câu "không rút lại được"** | **Chọn** | Khách thấy cùng lúc: hậu quả, căn cứ và chỗ BM 201 đang giữ. Tick là một thao tác chủ động, khó bấm nhầm hơn một nút, nhưng chỉ thêm 1 lần bấm cho khách thật sự muốn hoàn (T3, §6) |
+
+**Chuyển nhân viên: chọn dải trạng thái ở đầu khung chat, có nút huỷ.**
+
+| Phương án | Kết luận | Vì sao |
+|---|---|---|
+| Chỉ một dòng tin nhắn "Đã chuyển nhân viên" | Loại | Dòng tin trôi lên khi khách chat tiếp hoặc giữ chỗ. Khách quên mình đang chờ, không biết chờ bao lâu |
+| Chuyển hẳn sang màn hình chờ nhân viên | Loại | Ở S8 khách vẫn cần giữ chỗ cho 2 người trong lúc chờ. Rời khung chat thì mất đường lui đó |
+| **Dải cố định dưới thanh ①: "Đang chuyển nhân viên · chờ khoảng 5 phút", nút "Huỷ, quay lại chat"** | **Chọn** | Luôn thấy đang chờ và chờ bao lâu, vẫn dùng chat được. Nút huỷ cho khách quay lại khi chuyển thừa, đúng mức "tự làm, đảo được" của `chuyen_nhan_vien` (§4.1) |
+
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
 
