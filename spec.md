@@ -9,9 +9,12 @@
 ## §1. Lát cắt & phạm vi
 - Trong Đặt chỗ của tôi, khi hành khách vừa nhận tin chuyến bay bị huỷ và nhắn hỏi, AI đề xuất và giữ chỗ chuyến thay thế, hỏi lại cho rõ, đổi vé, hay chuyển nhân viên, để khách tới nơi kịp mà không mất vé hay tiền vì một thao tác không đảo lại được.
 - Các việc tính năng KHÔNG làm
-  - Việc 1: 
-  - Việc 2:
-  - Việc 3: 
+  - Việc 1: **Không đổi tên người bay**, vì việc này cần xác minh giấy tờ theo quy định của hãng. AI đổi sai thì khách bị từ chối lên máy bay, nên luôn chuyển nhân viên.
+
+  - Việc 2: **Không hứa hay xử lý bồi thường tiền mặt**, vì chuyến BM 213 huỷ do thời tiết và chính sách hãng Bay Mẫu là không bồi thường. AI hứa sai thì khách mất lòng tin và nhân viên phải đi gỡ.
+
+  - Việc 3: **Không nhận số thẻ hay OTP, không xử lý thanh toán**, vì lát cắt chỉ là đổi chuyến hoặc hoàn vé trên đặt chỗ đã có. Xin thông tin thanh toán trong chat là mở đường cho lừa đảo và lộ dữ liệu.
+
 
 ## §2. Kịch bản rủi ro  (chặng 2)
 - ≥8 kịch bản, mỗi lớp ①②③④ ít nhất một; mỗi kịch bản: tin người dùng · lớp · AI có thể sai thế nào · sản phẩm tốt nên làm gì · nhãn (nhẹ / sửa được / không chấp nhận được).
