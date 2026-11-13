@@ -23,7 +23,7 @@
 
 | # | Tin người dùng nhắn | Lớp | AI có thể sai thế nào | Sản phẩm tốt nên làm gì | Nhãn | Thành viên làm |
 |---|---|---|---|---|---|---|
-| S1 | | | | | | |
+| S1|”Đổi đi”|2|Trỏ ngay lập tức về `doi_chuyen_bay` mà không có thông tin về chuyến bay muốn đổi|Hỏi khách xem khách muốn đổi sang chuyến nào|Không chấp nhận được|Nguyễn Văn Anh Trung
 | S2 | | | | | | |
 | S3 | | | | | | |
 | S4 | | | | | | |
