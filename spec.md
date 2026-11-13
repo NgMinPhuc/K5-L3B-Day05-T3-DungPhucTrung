@@ -46,6 +46,47 @@
 
 ### §3.1 S4 — Hoàn vé khi khách đang bực *(Nguyễn Văn Anh Trung)*
 *[Trung viết: AI nói gì · khách thấy gì · làm gì tiếp · ai được báo · quyết định và phương án đã loại · loại lỗi]*
+**AI nói (nguyên văn):**
+>Dạ, em làm hoàn vé cho chị được ạ. Em xin lỗi vì chuyến bị huỷ làm chị và bé lỡ kế hoạch.
+Chị xem giúp em thông tin bên dưới rồi bấm **Gửi yêu cầu hoàn**, vì yêu cầu đã gửi thì **không rút lại được**:
+• Hoàn cho: Mẹ và Bé Bình (chị bỏ chọn nếu chỉ hoàn cho một người)
+• Tiền về tài khoản ngân hàng của chị trong tối đa 90 ngày
+• Nếu sau này vẫn cần vào TP.HCM, chị sẽ phải đặt vé mới.
+Nếu chị đổi ý, hôm nay vẫn còn chuyến 21:00 có 1 chỗ.
+
+**Khách thấy gì**
+- Thẻ hoàn vé có 2 ô chọn: Ô của mẹ và ô của bé. Hai ô được chọn sẵn vì khách đã nói “hết”, nhưng tên từng người hiện rõ để khách bỏ chọn chỉ bằng một chạm.
+- Nút chính: [Gửi yêu cầu hoàn]. Nút phụ, nhỏ hơn: [Xem chuyến khác] và [Nói chuyện với nhân viên].
+- Khác với lần trước, AI không tự giữ chỗ. Khách đã quyết định hoàn tiền, nên tự giữ chỗ dễ bị cảm thấy là ép khách đi. Ở đây AI chỉ nhắc chuyến thay thế một lần, bằng nút phụ.
+
+**Làm gì tiếp** 
+|Khách làm gì|Hệ thống làm gì|
+|---|---|
+|Bấm Gửi yêu cầu hoàn|	Yêu cầu vào hàng chờ 10 phút, màn hình hiện “Sẽ gửi lúc 11:51. [Rút lại]”. Hết 10 phút thì gọi `gui_yeu_cau_hoan_ve`.
+|Gõ “ừ”, “gửi đi”|	Không gửi. AI nhắn: “Chị bấm nút Gửi yêu cầu hoàn giúp em nhé.” Bước này cần bấm nút vì không đảo lại được.
+|Bỏ chọn bé Bình|Hỏi thêm một câu: “Bé Bình vẫn bay chuyến nào ạ?” Nếu bé là em bé (INF) thì không được bay một mình, nên chuyển nhân viên.
+Bấm Xem chuyến khác|Lúc này mới gọi `tra_cuu_dat_cho` và `giu_cho_chuyen_moi`.
+Bực hơn, hoặc phản đối các thông tin trên thẻ|	Gọi `chuyen_nhan_vien`.
+
+**Ai được báo**  
+- Khách: ngay khi tool thật được gọi, nhận email/SMS có mã yêu cầu, tên 2 hành khách và mốc 90 ngày.
+- Nhân viên: chỉ được báo khi chuyển người, kèm bản tóm tắt. Mục tiêu nhận ca dưới 5 phút (nhóm đề xuất).
+
+**Quyết định: làm theo, nhưng xác nhận phạm vi**
+|Cách	|Chọn hay loại	|Vì sao
+|---|---|---|
+Hỏi lại, thu hẹp lại thành xác nhận phạm vi	|Chọn|	Ý định đã rõ nên không hỏi “có hoàn không”. Chỉ cần chốt ai được hoàn và tiền về đâu, hai thứ tin nhắn chưa nói và tool không cho sửa sau khi gửi.
+Trả lời kèm giới hạn (gửi luôn, kèm dòng “lưu ý tiền về sau 90 ngày”)	|Loại|	Hoàn vé không đảo lại được. Cảnh báo phải đến trước khi gửi, không phải sau.
+Chuyển người ngay	|Loại làm bước đầu|	Khách đã nói rõ nên không cần nhân viên. Bắt chờ chỉ làm khách bực thêm. Chỉ chuyển khi có rủi ro mà AI không xử lý được, ví dụ em bé phải bay một mình.  
+
+**Loại lỗi: vẫn là lỗi ngữ cảnh, nhưng hẹp hơn**
+
+Lần này hệ thống không hiểu sai ý định. Cái sai có thể xảy ra là **AI hiểu chữ “hết” và “cho mình” theo nghĩa mặc định**, trong khi đặt chỗ có 2 hành khách và dữ liệu có thể không có phương thức thanh toán. Đó vẫn là lỗi ngữ cảnh: câu đúng, ý chính đúng, nhưng phạm vi phụ thuộc vào dữ liệu mà khách không nhìn thấy.
+
+Hệ quả cho thiết kế:
+
+- **Cách nói:** không hỏi lại ý định, không khuyên “chị nghĩ kỹ chưa”. AI tôn trọng quyết định của khách và chỉ **đưa phạm vi ra cho khách nhìn:** tên người, nơi tiền về.
+- **Cách sửa:** ở giao diện, bằng ô chọn từng người, chứ không bằng câu hỏi mở.
 
 ### §3.2 S8 — Tách bé 5 tuổi bay một mình
 Khách nhắn: *"Chuyến 7h mai cho bé Bình bay trước, mình đi chuyến sau nha"*
